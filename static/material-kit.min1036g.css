@@ -17050,7 +17050,7 @@ thead.thead-inverse th {
 .card .card-header-primary,
 .card.card-rotate.bg-primary .back,
 .card.card-rotate.bg-primary .front {
-   background: linear-gradient(60deg, #79e2cd, #fd8c04)
+   background: linear-gradient(60deg, #fd8c04, #fd8c04)
 }
 
 .card.bg-info,
