@@ -4,7 +4,10 @@
     {% if category %}{{ category.name }} {% else %} {{product.name }} {% endif %}
 {% endblock %}
 
+
 {% block content %}
+{% include 'shop/discount.html' %}
+
 <br><br><br>
 <div class="px-4 px-lg-0">
       <div class="pb-5">
