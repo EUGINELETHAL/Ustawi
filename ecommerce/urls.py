@@ -29,8 +29,7 @@ from django.urls import path, re_path
 urlpatterns = [
    
 
-    re_path(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
-    re_path(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
+      # Django JET dashboard URLS
     re_path('admin/', admin.site.urls),
     re_path(r'', include('registration.urls')),
     re_path(r'', include('login.urls')),

@@ -1,15 +1,28 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from .models import OrderItem
 from .forms import OrderCreateForm
 from cart.cart import Cart
-
+from account.models import Client
 
 def order_create(request):
     cart = Cart(request)
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
         if form.is_valid():
-            order = form.save()
+            order = form.save(commit=False)
+            client=Client.objects.get(user=request.user)
+           
+               
+                
+
+           
+            order.save()
+           
+            client.no_of_orders+=1
+            client.save()
+            print(client.no_of_orders)
+            
             for item in cart:
                 OrderItem.objects.create(
                     order=order,
@@ -18,6 +31,14 @@ def order_create(request):
                     quantity=item['quantity']
                 )
             cart.clear()
+            # cost=order.get_total_cost()
+            discount=order.get_discount(client)
+            print(discount)
+            print(order.get_total_cost())
+            # if client.no_of_orders > 1 :
+            # 	 discount=(float(cost)*0.5)
+            # 	 print(discount)
+            # print(order.get_total_cost())
         return render(request, 'orders/order/created.html', {
             'order': order,
             'local_css_urls': ["css3/easy-responsive-tabs.css",

@@ -9,6 +9,15 @@ import datetime
 class Client(models.Model):
     client_id = models.AutoField(primary_key=True)
     user = models.OneToOneField(User, on_delete=models.PROTECT)
+    no_of_orders=models.PositiveIntegerField(default=0)
+    is_eligible=models.BooleanField(default=False)
+    
+    
+   
+    def has_discount(self):
+    	if self.no_of_orders>0:
+    		return self.is_eligible
+    	
   
  
     
