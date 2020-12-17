@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Category, Product, SubCategory, MiniCategory
+from .forms import NegotiateForm
 from cart.forms import CartAddProductForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from account.models import Client
+from django.shortcuts import redirect
 
 
 # @login_required(login_url='/accounts/login/')
@@ -500,7 +502,32 @@ def womens(request):
     return render(request, 'shop/product/womens.html')
 
 
+def client_price(request):
+    if request.method == 'POST':
+            # create a form instance and populate it with data from the request:
+        form = NegotiateForm(request.POST)
+            # check whether it's valid:
+        if form.is_valid():
+                # process the data in form.cleaned_data as required
+            client_price=form.cleaned_data['client_price']
+            request.session['client_price'] = client_price
+            return render(request, 'client.html', {'form': form})
+            
+                # ...
+                # redirect to a new URL:
+
+        
+
+        # if a GET (or any other method) we'll create a blank form
+    else:
+        form = NegotiateForm()
+        return render(request, 'client.html', {'form': form})
+   
+
+
 def negotiate(request):
+    client_price=request.session['client_price']
+    print(client_price)
     client = Client.objects.get(user=request.user)
     client_orders = client.no_of_orders
     if client.has_discount:
@@ -515,4 +542,4 @@ def negotiate(request):
     else:
         messages.info(
             request, ('Unfortunately ou are not eligible for any loan!'))
-    return render(request, 'shop/discount.html',{'client_orders':client_orders})
+    return render(request, 'shop/discount.html',{'client_orders':client_orders,'client_price':client_price})

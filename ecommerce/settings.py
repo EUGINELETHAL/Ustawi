@@ -161,6 +161,8 @@ MEDIA_URL = '/products/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'products/')
 
 CART_SESSION_ID = 'cart'
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+SESSION_COOKIE_HTTPONLY = True
 
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
