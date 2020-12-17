@@ -18,7 +18,10 @@ urlpatterns = [
     url(r'^decorbeauty/', views.decorbeauty, name='decorbeauty'),
     url(r'^homeaccesories/', views.homeaccesories, name='homeaccesories'),
     url(r'^shop/', views.product_list, name='product_list'),
+    url(r'^negotiate/price', views.client_price, name='client_price'),
     url(r'^negotiate/', views.negotiate, name='negotiate'),
+    
+
    
     url(r'^(?P<category_slug>[-\w]+)/$',
         views.product_list, name='product_list_by_category'),

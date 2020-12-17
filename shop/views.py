@@ -511,7 +511,7 @@ def client_price(request):
                 # process the data in form.cleaned_data as required
             client_price=form.cleaned_data['client_price']
             request.session['client_price'] = client_price
-            return redirect('/negotiate/')
+            return render(request, 'client.html', {'form': form})
             
                 # ...
                 # redirect to a new URL:
@@ -521,9 +521,13 @@ def client_price(request):
         # if a GET (or any other method) we'll create a blank form
     else:
         form = NegotiateForm()
+        return render(request, 'client.html', {'form': form})
+   
 
 
 def negotiate(request):
+    client_price=request.session['client_price']
+    print(client_price)
     client = Client.objects.get(user=request.user)
     client_orders = client.no_of_orders
     if client.has_discount:
@@ -538,4 +542,4 @@ def negotiate(request):
     else:
         messages.info(
             request, ('Unfortunately ou are not eligible for any loan!'))
-    return render(request, 'shop/discount.html',{'client_orders':client_orders})
+    return render(request, 'shop/discount.html',{'client_orders':client_orders,'client_price':client_price})
